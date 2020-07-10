@@ -183,7 +183,7 @@ static int GetTokPrecedence() {
 
 
     //Make sure it's a declared binop.
-    int TokPrec = BinapPrecedence[CurTok];
+    int TokPrec = BinopPrecedence[CurTok];
     if(TokPrec <= 0)
         return -1;
     return TokPrec;
@@ -192,11 +192,11 @@ static int GetTokPrecedence() {
 
 // LogError* - These are little helper functions for error handling.
 std::unique_ptr<ExprAST> LogError(const char *str) {
-    fprintf(stderr, "Error: %s\n", Str); 
+    fprintf(stderr, "Error: %s\n", str); 
     return nullptr;
 }
 std::unique_ptr<PrototypeAST> LogErrorP(const char *str) {
-    LogError(Str);
+    LogError(str);
     return nullptr; 
 }
 
@@ -329,7 +329,7 @@ static std::unique_ptr<ExprAST> ParseBinOpRHS(int ExprPrec, std::unique_ptr<Expr
 static std::unique_ptr<ExprAST> ParseExpression() {
     auto LHS = ParsePrimary();
     if(!LHS) 
-        return nnullptr;
+        return nullptr;
 
     return ParseBinOpRHS(0, std::move(LHS));
 }
@@ -471,7 +471,7 @@ int main() {
 
 
     // Prime the first token.
-    fprintf(stedrr, "ready> ");
+    fprintf(stderr, "ready> ");
     getNextToken();
 
     // Run the mainn "interpreter loop" now.
